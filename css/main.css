@@ -1,3 +1,44 @@
+.wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 10vh 0 auto;
+  background-color: #3f5a9d;
+  color: white;
+  font-size: 2rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .center {
   width: 50%;
+  margin: 10vh auto;
+  padding: 3rem;
+  text-align: center;
+}
+
+.door {
+  border: 2px solid #6e4f32;
+  margin: 10px 30px;
+  width: 150px;
+  height: 250px;
+  background-color: #8c6e52;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.circle {
+  position: relative;
+  left: 80%;
+  top: 45%;
+  width: 20px;
+  height: 20px;
+  background-color: #3e1c00;
+  border: 1px solid #8c6e52;
+  border-radius: 50%;
 }
