@@ -5,6 +5,7 @@
 *.DS_Store
 .AppleDouble
 .LSOverride
+.tern-project
 
 # Icon must end with two \r
 Icon
