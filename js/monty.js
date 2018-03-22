@@ -1,19 +1,18 @@
-var door = {
+var door1 = {
   opened: false,
   prize: false
 };
-var door1 = door;
-var doors = [door, door, door];
-var $startButton = $("start");
+var door2 = Object.assign({}, door1);
+var door3 = Object.assign({}, door1);
+var doors = [door1, door2, door3];
+var $startButton = $(".start");
 
 $(document).click(function (event) {
   var $selectedElement = $(event.target);
-
   if ( $selectedElement.hasClass("start") ) {
     const prizeDoor = randomize(0, 2);
-    console.log(prizeDoor);
     doors[prizeDoor].prize = true;
-    console.log(doors);
+    $startButton.hide("slow");
   }
 });
 
