@@ -1,7 +1,5 @@
-.wrapper {
-  display: block;
-  margin: 0 auto;
-  text-align: center;
+body {
+  background-color: #eaeaea;
 }
 
 .button {
@@ -22,6 +20,17 @@
   text-align: center;
 }
 
+.circle {
+  position: relative;
+  left: 80%;
+  top: 45%;
+  width: 20px;
+  height: 20px;
+  background-color: #3e1c00;
+  border: 1px solid #8c6e52;
+  border-radius: 50%;
+}
+
 .door {
   border: 2px solid #6e4f32;
   margin: 10px 30px;
@@ -32,13 +41,26 @@
   cursor: pointer;
 }
 
-.circle {
+.question {
+  font-size: 2.5rem;
+  text-align: center;
+  display: none;
+}
+
+.selection {
+  display: none;
   position: relative;
-  left: 80%;
-  top: 45%;
-  width: 20px;
-  height: 20px;
-  background-color: #3e1c00;
-  border: 1px solid #8c6e52;
-  border-radius: 50%;
+  left: 35%;
+  bottom: 70px;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid 	#2a3c48;
+}
+
+.wrapper {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
 }
