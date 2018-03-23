@@ -6,8 +6,8 @@ var $doorsArray = $doors.toArray();
 for (var i = 0; i < $doorsArray.length; i++) {
   $doorsArray[i].prize = false;
   $doorsArray[i].open = function () {
-    $(this).hide();
-  }
+    $(this).hide(1000);
+  };
   $doorsArray[i].selected = false;
 }
 
@@ -26,10 +26,10 @@ $(document).click(function (event) {
   } else if ( $selectedElement.hasClass("door") ) {
 
     if (gameStarted) {
-      $doors.off("mouseover");
+      $doors.off("mouseover"); //удаляю обработчики событий
       $doors.off("mouseout");
       $selectedElement[0].selected = true;
-      openOtherDoor();
+  //  openOtherDoor();
     }
   }
 });
@@ -47,16 +47,15 @@ function startGame() {
   });
 }
 
-function openOtherDoor() { // надо сделать так, чтобы убиралась дверь без приза
+function openOtherDoor() {
 
-  var $otherDoors = $doorsArray;
   const openDoor = randomize(0, 1);
 
-  for (var i = 0; i < $otherDoors.length; i++) {
-    if ($otherDoors[i].selected === true) {
-      $otherDoors.splice($otherDoors[i], 1); //какая-то фигня, надо додумать
-    }
-  }
+  for (var i = 0; i < $doorsArray.length; i++) {
+    if ( $doorsArray[i].selected === false && $doorsArray[i].prize === false) { // надо думать
+
+    };
+  };
   $otherDoors[openDoor].open();
 }
 

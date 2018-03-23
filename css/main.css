@@ -20,7 +20,7 @@ body {
   text-align: center;
 }
 
-.circle {
+.circle { /* дверная ручка */
   position: relative;
   left: 80%;
   top: 45%;
