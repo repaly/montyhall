@@ -19,7 +19,7 @@ $(document).click(function (event) {
 
     const prizeDoor = randomize(0, 2);
 
-    $doorsArray[prizeDoor].prize = true;
+    $doorsArray[prizeDoor].prize = true; // назначую дверь с призом
     $startButton.hide("slow");
     startGame();
     $(".question").show(1000);
@@ -29,7 +29,7 @@ $(document).click(function (event) {
       $doors.off("mouseover"); //удаляю обработчики событий
       $doors.off("mouseout");
       $selectedElement[0].selected = true;
-  //  openOtherDoor();
+      openOtherDoor();
     }
   }
 });
@@ -49,14 +49,22 @@ function startGame() {
 
 function openOtherDoor() {
 
-  const openDoor = randomize(0, 1);
+  const randomDoor = randomize(0, 1);
+  var doorsToOpen = [];
 
   for (var i = 0; i < $doorsArray.length; i++) {
     if ( $doorsArray[i].selected === false && $doorsArray[i].prize === false) { // надо думать
+      doorsToOpen.push($doorsArray[i]);
+    }
+  }
+    if (doorsToOpen.length === 2) {
+      doorsToOpen[randomDoor].open()
+    } else if (doorsToOpen.length === 1) {
+      doorsToOpen[0].open();
+    } else {
+      console.log("Что-то пошло не так, почему-то ведущий хочет открыть любую из 3 дверей");
+    }
 
-    };
-  };
-  $otherDoors[openDoor].open();
 }
 
 function randomize(min, max) {
