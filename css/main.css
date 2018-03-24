@@ -30,13 +30,20 @@ body {
   border-radius: 50%;
 }
 
-.door {
+.door,
+.car,
+.goat {
   border: 2px solid #6e4f32;
   margin: 10px 30px;
   width: 150px;
   height: 250px;
   background-color: #8c6e52;
   display: inline-block;
+  cursor: pointer;
+}
+
+.car,
+.goat {
   cursor: pointer;
 }
 
