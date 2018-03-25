@@ -1,3 +1,7 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 body {
   background-color: #eaeaea;
 }
@@ -9,6 +13,7 @@ body {
   background-color: #3f5a9d;
   color: white;
   font-size: 2rem;
+  font-weight: 600;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -44,13 +49,14 @@ body {
 
 .car,
 .goat {
-  cursor: pointer;
+  cursor: default;
 }
 
 .question {
   font-size: 2.5rem;
   text-align: center;
   display: none;
+  margin: 0 25%;
 }
 
 .selection {
@@ -69,4 +75,15 @@ body {
   display: block;
   margin: 0 auto;
   text-align: center;
+}
+
+.not-change {
+  background-color: #27b376;
+  margin-right: 3rem;
+  margin-top: 5vh;
+}
+
+.change {
+  background-color: #bf212f;
+  margin-top: 5vh;
 }

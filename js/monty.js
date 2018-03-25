@@ -2,6 +2,8 @@ var gameStarted = false;
 var doorAlreadyOpened = false;
 const $question = $(".question");
 const $startButton = $(".start");
+const $notChangeButton = $(".not-change");
+const $changeButton = $(".change");
 const $doors = $("div[class='door']");
 const $doorsArray = $doors.toArray();
 const $car = $("<img>", {
@@ -48,7 +50,6 @@ $(document).click(function(event) {
       if (!doorAlreadyOpened) {
         openOtherDoor();
       }
-
     }
   }
 });
@@ -66,6 +67,10 @@ function startGame() {
   });
 }
 
+function giveChoice() {
+
+}
+
 function openOtherDoor() {
 
   const randomDoor = randomize(0, 1);
@@ -77,6 +82,7 @@ function openOtherDoor() {
     if ($doorsArray[i].selected === false && $doorsArray[i].prize === false) {
       doorsToOpen.push($doorsArray[i]);
     }
+    $( $doorsArray[i] ).css({cursor: "default"});
   }
   if (doorsToOpen.length === 2) {
     $(doorsToOpen[randomDoor]).addClass("goat");
@@ -93,8 +99,9 @@ function openOtherDoor() {
     }
   }
 
-  $question.hide(200).text("Повезло, что не " + numberOfOpenedDoor + "-я дверь, там была коза!" )
+  $question.hide(200).text("Повезло, что не " + numberOfOpenedDoor + "-я дверь, там была коза! У тебя есть последний шанс поменять своё решение. Как поступишь?" )
   .show(200);
+  $changeButton.parent().delay(200).show(1000);
 }
 
 function showPrize(door, prize) {
