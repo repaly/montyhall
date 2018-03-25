@@ -4,27 +4,17 @@ const $question = $(".question");
 const $startButton = $(".start");
 const $notChangeButton = $(".not-change");
 const $changeButton = $(".change");
-const $doors = $("div[class='door']");
-const $doorsArray = $doors.toArray();
-const $car = $("<img>", {
-  src: "img/car.jpg",
-  alt: "машина",
-  class: "car"
-});
-const $goat = $("<img>", {
-  src: "img/goat.jpg",
-  alt: "козёл",
-  class: "goat"
-})
+var $doors = $("div[class='door']");
+var $doorsArray = $doors.toArray();
 
 for (var i = 0; i < $doorsArray.length; i++) { // присваиваю каждому дверному объекту свойства
   $doorsArray[i].prize = false;
   $doorsArray[i].selected = false;
   $doorsArray[i].open = function() {
     if (!this.prize) {
-      showPrize(this, $goat);
+      showPrize(this);
     } else if (this.prize) {
-      showPrize(this, $car);
+      showPrize(this);
     }
   };
 }
@@ -44,14 +34,45 @@ $(document).click(function(event) {
   } else if ($selectedElement.hasClass("door")) {
 
     if (gameStarted) {
-      $doors.off("mouseover"); //удаляю обработчики событий
+      $doors.off("mouseover"); // удаляю обработчики событий
       $doors.off("mouseout");
       $selectedElement[0].selected = true;
       if (!doorAlreadyOpened) {
         openOtherDoor();
+        $doors = $("div[class='door']");
+        $doorsArray = $doors.toArray();
       }
     }
-  }
+  } else if ($selectedElement.hasClass("not-change")) {
+      $selectedElement.parent().hide();
+      for (var i = 0; i < $doorsArray.length; i++) {
+        if ($doorsArray[i].selected) {
+          $doorsArray[i].open();
+          if ($doorsArray[i].prize) {
+            $question.hide(200).text("Поздравляю, машина твоя! А ещё тобой побеждена теория вероятностей, так как шанс того, что машина будет в другой двери - выше")
+            .show(200);
+          } else if (!$doorsArray[i].prize) {
+            $question.hide(200).text("Увы, тут была коза-стрекоза! Лучше меняй выбор, ведь шанс того, что машина будет в другой двери - выше")
+            .show(200);
+          }
+        }
+      }
+    } else if ($selectedElement.hasClass("change")) {
+      $selectedElement.parent().hide();
+      for (var i = 0; i < $doorsArray.length; i++) {
+        if (!$doorsArray[i].selected) {
+          console.log($doorsArray[i]);
+          $doorsArray[i].open();
+          if ($doorsArray[i].prize) {
+            $question.hide(200).text("Поздравляю, машина твоя! Принятое тобой решение - правильное. При смене начального выбора шанс получить машину значительно выше")
+            .show(200);
+          } else if (!$doorsArray[i].prize) {
+            $question.hide(200).text("Увы, тут была коза-стрекоза! Тебе просто не повезло, но по математическеим законам ты в правильном направлении. При смене начального выбора шанс получить машину значительно выше")
+            .show(200);
+          }
+        }
+      }
+    }
 });
 
 function startGame() {
@@ -65,10 +86,6 @@ function startGame() {
   $doors.mouseout(function(event) {
     $(this).children(".selection").hide();
   });
-}
-
-function giveChoice() {
-
 }
 
 function openOtherDoor() {
@@ -93,7 +110,7 @@ function openOtherDoor() {
   } else {
     console.log("Что-то пошло не так, почему-то ведущий хочет открыть любую из 3 дверей");
   }
-  for (var i = 0; i < $doorsArray.length; i++) { // смотрит какая дверь открылась и присваивает это значение numberOfOpenedDoor
+  for (var i = 0; i < $doors.length; i++) { // смотрит какая дверь открылась и присваивает это значение numberOfOpenedDoor
     if ( $($doorsArray[i]).hasClass("goat") ) {
       numberOfOpenedDoor = i + 1;
     }
@@ -102,13 +119,31 @@ function openOtherDoor() {
   $question.hide(200).text("Повезло, что не " + numberOfOpenedDoor + "-я дверь, там была коза! У тебя есть последний шанс поменять своё решение. Как поступишь?" )
   .show(200);
   $changeButton.parent().delay(200).show(1000);
+
 }
 
-function showPrize(door, prize) {
-  $(door).fadeOut("slow", function() {
-    $(door).replaceWith(prize);
-    $(door).fadeIn("slow");
-  });
+function showPrize(door) {
+  if (!door.prize) {
+    var $goat = $("<img>", {
+      src: "img/goat.jpg",
+      alt: "козёл",
+      class: "goat"
+    });
+    $(door).fadeOut("slow", function() {
+      $(door).replaceWith($goat);
+      $(door).fadeIn("slow");
+    });
+  } else if (door.prize) {
+    var $car = $("<img>", {
+      src: "img/car.jpg",
+      alt: "машина",
+      class: "car"
+    });
+    $(door).fadeOut("slow", function() {
+      $(door).replaceWith($car);
+      $(door).fadeIn("slow");
+    });
+  }
 }
 
 function randomize(min, max) {
