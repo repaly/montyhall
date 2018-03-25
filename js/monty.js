@@ -1,7 +1,9 @@
 var gameStarted = false;
-var $startButton = $(".start");
-var $doors = $("div[class='door']");
-var $doorsArray = $doors.toArray();
+var doorAlreadyOpened = false;
+const $question = $(".question");
+const $startButton = $(".start");
+const $doors = $("div[class='door']");
+const $doorsArray = $doors.toArray();
 const $car = $("<img>", {
   src: "img/car.jpg",
   alt: "машина",
@@ -13,7 +15,7 @@ const $goat = $("<img>", {
   class: "goat"
 })
 
-for (var i = 0; i < $doorsArray.length; i++) {
+for (var i = 0; i < $doorsArray.length; i++) { // присваиваю каждому дверному объекту свойства
   $doorsArray[i].prize = false;
   $doorsArray[i].selected = false;
   $doorsArray[i].open = function() {
@@ -36,14 +38,17 @@ $(document).click(function(event) {
     $doorsArray[prizeDoor].prize = true; // назначую дверь с призом
     $startButton.hide("slow");
     startGame();
-    $(".question").show(1000);
+    $question.show(800);
   } else if ($selectedElement.hasClass("door")) {
 
     if (gameStarted) {
       $doors.off("mouseover"); //удаляю обработчики событий
       $doors.off("mouseout");
       $selectedElement[0].selected = true;
-      openOtherDoor();
+      if (!doorAlreadyOpened) {
+        openOtherDoor();
+      }
+
     }
   }
 });
@@ -65,20 +70,31 @@ function openOtherDoor() {
 
   const randomDoor = randomize(0, 1);
   var doorsToOpen = [];
+  var numberOfOpenedDoor;
+  doorAlreadyOpened = true;
 
   for (var i = 0; i < $doorsArray.length; i++) {
-    if ($doorsArray[i].selected === false && $doorsArray[i].prize === false) { // надо думать
+    if ($doorsArray[i].selected === false && $doorsArray[i].prize === false) {
       doorsToOpen.push($doorsArray[i]);
     }
   }
   if (doorsToOpen.length === 2) {
-    doorsToOpen[randomDoor].open()
+    $(doorsToOpen[randomDoor]).addClass("goat");
+    doorsToOpen[randomDoor].open();
   } else if (doorsToOpen.length === 1) {
+    $(doorsToOpen[0]).addClass("goat");
     doorsToOpen[0].open();
   } else {
     console.log("Что-то пошло не так, почему-то ведущий хочет открыть любую из 3 дверей");
   }
+  for (var i = 0; i < $doorsArray.length; i++) { // смотрит какая дверь открылась и присваивает это значение numberOfOpenedDoor
+    if ( $($doorsArray[i]).hasClass("goat") ) {
+      numberOfOpenedDoor = i + 1;
+    }
+  }
 
+  $question.hide(200).text("Повезло, что не " + numberOfOpenedDoor + "-я дверь, там была коза!" )
+  .show(200);
 }
 
 function showPrize(door, prize) {
