@@ -7,17 +7,7 @@ const $changeButton = $(".change");
 var $doors = $("div[class='door']");
 var $doorsArray = $doors.toArray();
 
-for (var i = 0; i < $doorsArray.length; i++) { // присваиваю каждому дверному объекту свойства
-  $doorsArray[i].prize = false;
-  $doorsArray[i].selected = false;
-  $doorsArray[i].open = function() {
-    if (!this.prize) {
-      showPrize(this);
-    } else if (this.prize) {
-      showPrize(this);
-    }
-  };
-}
+assignDoorProperties();
 
 $(document).click(function(event) {
 
@@ -61,19 +51,50 @@ $(document).click(function(event) {
       $selectedElement.parent().hide();
       for (var i = 0; i < $doorsArray.length; i++) {
         if (!$doorsArray[i].selected) {
-          console.log($doorsArray[i]);
           $doorsArray[i].open();
           if ($doorsArray[i].prize) {
             $question.hide(200).text("Поздравляю, машина твоя! Принятое тобой решение - правильное. При смене начального выбора шанс получить машину значительно выше")
             .show(200);
           } else if (!$doorsArray[i].prize) {
-            $question.hide(200).text("Увы, тут была коза-стрекоза! Тебе просто не повезло, но по математическеим законам ты в правильном направлении. При смене начального выбора шанс получить машину значительно выше")
+            $question.hide(200).text("Увы, тут была коза-стрекоза! Тебе просто не повезло, но по математическим законам ты в правильном направлении. При смене начального выбора шанс получить машину значительно выше")
             .show(200);
           }
         }
       }
     }
 });
+
+function restartGame() {
+
+}
+
+function assignDoorProperties() {
+  for (var i = 0; i < $doorsArray.length; i++) { // присваиваю каждому дверному объекту свойства
+    $doorsArray[i].prize = false;
+    $doorsArray[i].selected = false;
+    $doorsArray[i].open = function() {
+      if (!this.prize) {
+        showPrize(this);
+      } else if (this.prize) {
+        showPrize(this);
+      }
+    };
+  }
+}
+
+function replaceDoor(door) {
+  var newDoor = $("<div>", {
+    class: "door"
+  });
+  var newCircle = $("<div>", {
+    class: "circle"
+  });
+  var newSelection = $("<div>", {
+    class: "selection"
+  });
+  newDoor.append(newCircle).append(newSelection);
+  $(door).replaceWith(newDoor);
+}
 
 function startGame() {
 
