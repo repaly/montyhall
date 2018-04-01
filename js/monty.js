@@ -1,10 +1,12 @@
 var gameStarted = false;
+var gameFinished = false;
 var doorAlreadyOpened = false;
 const $question = $(".question");
 const $startButton = $(".start");
 const $notChangeButton = $(".not-change");
 const $changeButton = $(".change");
-var $doors = $("div[class='door']");
+var $restartButton = $(".restart");
+var $doors = $("div[class='door']"); // закрытые двери
 var $doorsArray = $doors.toArray();
 
 assignDoorProperties();
@@ -34,7 +36,9 @@ $(document).click(function(event) {
       }
     }
   } else if ($selectedElement.hasClass("not-change")) {
+
       $selectedElement.parent().hide();
+
       for (var i = 0; i < $doorsArray.length; i++) {
         if ($doorsArray[i].selected) {
           $doorsArray[i].open();
@@ -47,8 +51,13 @@ $(document).click(function(event) {
           }
         }
       }
+
+      $restartButton.show(1000);
+
     } else if ($selectedElement.hasClass("change")) {
+
       $selectedElement.parent().hide();
+
       for (var i = 0; i < $doorsArray.length; i++) {
         if (!$doorsArray[i].selected) {
           $doorsArray[i].open();
@@ -61,6 +70,14 @@ $(document).click(function(event) {
           }
         }
       }
+
+      $restartButton.show(1000);
+
+    } else if ($selectedElement.hasClass("restart")) {
+      var allDoors = $("img").toArray().concat( $(".door").toArray() ); // добавляю в масив дом объекты дверей
+      allDoors.forEach(function(door) {
+        replaceDoor(door);
+      });
     }
 });
 
@@ -82,7 +99,7 @@ function assignDoorProperties() {
   }
 }
 
-function replaceDoor(door) {
+function replaceDoor(door) { // меняю любую дверь на дефолтную закрытую
   var newDoor = $("<div>", {
     class: "door"
   });
