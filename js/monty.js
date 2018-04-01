@@ -17,12 +17,8 @@ $(document).click(function(event) {
 
   if ($selectedElement.hasClass("start")) {
 
-    const prizeDoor = randomize(0, 2);
-
-    $doorsArray[prizeDoor].prize = true; // назначую дверь с призом
     $startButton.hide("slow");
-    startGame();
-    $question.show(800);
+    assignRandomDoorPrize();
   } else if ($selectedElement.hasClass("door")) {
 
     if (gameStarted) {
@@ -74,18 +70,25 @@ $(document).click(function(event) {
       $restartButton.show(1000);
 
     } else if ($selectedElement.hasClass("restart")) {
-      var allDoors = $("img").toArray().concat( $(".door").toArray() ); // добавляю в масив дом объекты дверей
-      allDoors.forEach(function(door) {
-        replaceDoor(door);
-      });
+      restartGame();
     }
 });
 
 function restartGame() {
-
+  var allDoors = $("img").toArray().concat( $(".door").toArray() ); // добавляю в масив DOM объекты дверей
+  allDoors.forEach(function(door) {
+    replaceDoor(door);
+  });
+  assignRandomDoorPrize();
+  doorAlreadyOpened = false;
+  $question.hide(200).text("За какой-то дверью находится приз, а в двух других козы. Какую дверь выберешь?")
+  .show(200);
 }
 
+
 function assignDoorProperties() {
+  $doors = $("div[class='door']");
+  $doorsArray = $doors.toArray();
   for (var i = 0; i < $doorsArray.length; i++) { // присваиваю каждому дверному объекту свойства
     $doorsArray[i].prize = false;
     $doorsArray[i].selected = false;
@@ -97,6 +100,13 @@ function assignDoorProperties() {
       }
     };
   }
+}
+
+function assignRandomDoorPrize() {
+  var prizeDoor = randomize(0, 2);
+  $doorsArray[prizeDoor].prize = true; // назначую дверь с призом
+  startGame();
+  $question.show(800);
 }
 
 function replaceDoor(door) { // меняю любую дверь на дефолтную закрытую
@@ -111,6 +121,7 @@ function replaceDoor(door) { // меняю любую дверь на дефол
   });
   newDoor.append(newCircle).append(newSelection);
   $(door).replaceWith(newDoor);
+  assignDoorProperties();
 }
 
 function startGame() {
